@@ -5,6 +5,7 @@ import { useQuery, useQueryClient } from "react-query";
 import { API_ENDPOINT } from "@/data/endpoint";
 import client from "@/data";
 import { AxiosError } from "axios";
+import { saveAs } from "file-saver";
 
 const inter = Inter({ subsets: ["vietnamese"] });
 
@@ -58,6 +59,10 @@ export default function Home() {
     } else {
       queryClient.refetchQueries([API_ENDPOINT.GET_VIDEOS, link]);
     }
+  };
+
+  const saveFile = (url: string) => {
+    saveAs(url);
   };
 
   return (
@@ -114,11 +119,13 @@ export default function Home() {
               <h6 className="text-base font-bold bg-green-500 rounded-md p-2 mb-2">
                 Thành công! Nhấn button dưới để download
               </h6>
-              <a href={`${data.url}`}>
-                <button className="bg-teal-600 py-2 px-4 rounded-full">
-                  Download
-                </button>
-              </a>
+
+              <button
+                className="bg-teal-600 py-2 px-4 rounded-full"
+                onClick={() => saveFile(data.url)}
+              >
+                Download
+              </button>
             </div>
           )}
         </div>
